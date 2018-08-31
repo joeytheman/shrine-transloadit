@@ -309,7 +309,8 @@ class Shrine
             raise Error, "The given TransloaditFile is missing an import step" if !transloadit_file.imported?
             unless transloadit_file.exported?
               path = generate_location(transloadit_file, context.merge(version: name)) + ".${file.ext}"
-              export_step = transloadit_export_step("export_#{name}", path: path)
+              acl = 'bucket-default'
+              export_step = transloadit_export_step("export_#{name}", path: path, acl: acl)
               transloadit_file = transloadit_file.add_step(export_step)
             end
             options[:steps] |= transloadit_file.steps
