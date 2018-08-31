@@ -291,8 +291,9 @@ class Shrine
         def transloadit_assembly_update_single!(transloadit_file, context, options)
           raise Error, "The given TransloaditFile is missing an import step" if !transloadit_file.imported?
           unless transloadit_file.exported?
-            path = generate_location(transloadit_file, context) + ".${file.ext}"
-            export_step = transloadit_export_step("export", path: path)
+            path = generate_location(transloadit_file, context) + "/${unique_original_prefix}/adapt/${file.meta.relative_path}/${file.name}"
+            acl = 'bucket-default'
+            export_step = transloadit_export_step("export", path: path, acl: acl)
             transloadit_file = transloadit_file.add_step(export_step)
           end
           options[:steps] += transloadit_file.steps
